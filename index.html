@@ -1,0 +1,355 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Warfarin dosing sheet</title>
+  <!-- CDN -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+  <script src="js/vis.min.js"></script>
+  <script src="js/jquery-1.12.4.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script>
+    $(function() {
+      $(".notes").hide();
+      $("#datepicker1").datepicker({dateFormat: "d M yy", numberOfMonths: 2});
+      $("#hide").click(function() {
+        $("#form").hide();
+        $(".notes").show();
+      });
+    });
+  </script>
+  <link rel="stylesheet" href="css/jquery-ui.css">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" rel="stylesheet" type="text/css" />
+  <!-- <link href="css/vis.min.css" rel="stylesheet" type="text/css" /> -->
+</head>
+
+<body>
+  <style type="text/css">
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      ;
+    }
+    input {
+      margin: 2px;
+    }
+
+    .footer {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+    }
+
+    #logo {
+      position: relative;
+      float: right;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+
+    .vis-timeline {
+      border: 2px solid purple;
+      margin-top: 10px;
+      font-family: Arial, Helvetica, sans-serif;
+      ;
+      font-size: 12pt;
+      background: #ffecea;
+    }
+
+    .vis-item {
+      border-color: #F991A3;
+      background-color: white;
+      font-size: 13pt;
+      color: purple;
+      box-shadow: 2px 2px 10px rgba(128, 128, 128, 0.5);
+    }
+
+    .vis-item,
+    .vis-item.vis-line {
+      border-width: 0px;
+    }
+
+    .vis-item.vis-dot {
+      border-width: 0px;
+      border-radius: 0px;
+    }
+
+    .vis-item.vis-selected {
+      border-color: green;
+      background-color: lightgreen;
+    }
+
+    .vis-time-axis .vis-text {
+      color: purple;
+      padding-top: 5px;
+      padding-left: 5px;
+    }
+
+    .vis-time-axis .vis-text.vis-major {
+      font-weight: bold;
+    }
+
+    .vis-time-axis .vis-grid.vis-minor {
+      border-width: 2px;
+      border-color: pink;
+    }
+
+    .vis-time-axis .vis-grid.vis-major {
+      border-width: 2px;
+      border-color: #F991A3;
+    }
+  </style>
+  </head>
+
+  <body>
+    <div>
+      <img id="logo" class="notes" src="img/bhsct.png" alt="logo">
+      <div id="form">
+        <span style="font-weight: bold;">Warfarin compliance tool for print</span><br>
+        <span>Max 2 weeks if printing landscape, max 4 weeks if printing potrait.</span><br>
+        <span>"o" - omit, "r" - retest, "p" - phone</span><br>
+        <input tabindex="1" type="text" placeholder="From" id="datepicker1" onchange="getToday()" style='width: 80px;'><br>
+        <input tabindex="2" type="text" placeholder="mg" id="d" style='width: 25px;'><span id="l"></span><br>
+        <input tabindex="3" type="text" placeholder="mg" id="d1" style='width: 25px;'><span id="l1"></span><br>
+        <input tabindex="4" type="text" placeholder="mg" id="d2" style='width: 25px;'><span id="l2"></span><br>
+        <input tabindex="5" type="text" placeholder="mg" id="d3" style='width: 25px;'><span id="l3"></span><br>
+        <input tabindex="6" type="text" placeholder="mg" id="d4" style='width: 25px;'><span id="l4"></span><br>
+        <input tabindex="7" type="text" placeholder="mg" id="d5" style='width: 25px;'><span id="l5"></span><br>
+        <input tabindex="8" type="text" placeholder="mg" id="d6" style='width: 25px;'><span id="l6"></span>
+        <button tabindex="9" style="margin: 5px;" onclick="getDate()" id="submit">...</button>
+        <button style="margin: 5px;" onclick="hide()" id="hide">hide for printing</button>
+        <input placeholder="appt. time" type="text" id="time" style='width: 90px;'><br><br>
+      </div>
+      <div id="week1" style="margin-top: 20px;"></div>
+    </div>
+    <div class="footer">
+      <span class="notes" style="font-size: 14px;">Warfarin Dosing Sheet | Anticoagulant Clinic, Wing K, Outpatients, Belfast City Hospital, Lisburn Road, Belfast, County Antrim, BT9 7AB  &#x260E; 02890 633005 | 02890 638802</span>
+    </div>
+
+    <script type="text/javascript">
+      function getToday() {
+        var date1 = document.getElementById('datepicker1').value;
+        var tt = new Date(date1);
+        var days = ["Sun ", "Mon ", "Tue ", "Wed ", "Thu ", "Fri ", "Sat ", "Sun ", "Mon ", "Tue ", "Wed ", "Thu ", "Fri ", "Sat "];
+        document.getElementById('l').innerHTML = days[tt.getDay()];
+        document.getElementById('l1').innerHTML = days[tt.getDay() + 1];
+        document.getElementById('l2').innerHTML = days[tt.getDay() + 2];
+        document.getElementById('l3').innerHTML = days[tt.getDay() + 3];
+        document.getElementById('l4').innerHTML = days[tt.getDay() + 4];
+        document.getElementById('l5').innerHTML = days[tt.getDay() + 5];
+        document.getElementById('l6').innerHTML = days[tt.getDay() + 6];
+      }
+
+      function getDate() {
+        document.getElementById('l').innerHTML = "";
+        document.getElementById('l1').innerHTML = "";
+        document.getElementById('l2').innerHTML = "";
+        document.getElementById('l3').innerHTML = "";
+        document.getElementById('l4').innerHTML = "";
+        document.getElementById('l5').innerHTML = "";
+        document.getElementById('l6').innerHTML = "";
+
+
+        var date1 = document.getElementById('datepicker1').value;
+        var d = document.getElementById('d').value;
+        var d1 = document.getElementById('d1').value;
+        var d2 = document.getElementById('d2').value;
+        var d3 = document.getElementById('d3').value;
+        var d4 = document.getElementById('d4').value;
+        var d5 = document.getElementById('d5').value;
+        var d6 = document.getElementById('d6').value;
+        var time = document.getElementById('time').value;
+        var ds, ds1, ds2, ds3, ds4, ds5, ds6;
+        var number = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, "o", "r", "p"];
+        number.forEach(getNumber);
+
+        function getNumber(item, index) {
+          if (item == d) {
+            ds = '<div>' + item + 'mg</div><img src="img/' + item + '.png" style="width:124px; height:195px;">'
+          };
+          if (item == d && d == "r") {
+            ds = '<div>Retest at clinic</div><img src="img/test.png" style="width:80px; height:80px;"><div>at ' + time + '</div>'
+          };
+          if (item == d && d == "o") {
+            ds = '<div>Omit</div><img src="img/omit.png" style="width:80px; height:80px;">'
+          };
+          if (item == d && d=="p") {
+            ds = '<div>Clinic will</div><img src="img/telephone.PNG" style="width:80px; height:80px;"><div>phone today</div>'
+          };
+
+          if (item == d1) {
+            ds1 = '<div>' + item + 'mg</div><img src="img/' + item + '.png" style="width:124px; height:195px;">'
+          };
+          if (item == d1 && d1 == "r") {
+            ds1 = '<div>Retest at clinic</div><img src="img/test.png" style="width:80px; height:80px;"><div>at ' + time + '</div>'
+          };
+          if (item == d1 && d1 == "o") {
+            ds1 = '<div>Omit</div><img src="img/omit.png" style="width:80px; height:80px;">'
+          };
+          if (item == d1 && d1=="p") {
+            ds1 = '<div>Clinic will</div><img src="img/telephone.PNG" style="width:80px; height:80px;"><div>phone today</div>'
+          };
+
+          if (item == d2) {
+            ds2 = '<div>' + item + 'mg</div><img src="img/' + item + '.png" style="width:124px; height:195px;">'
+          };
+          if (item == d2 && d2 == "r") {
+            ds2 = '<div>Retest at clinic</div><img src="img/test.png" style="width:80px; height:80px;"><div>at ' + time + '</div>'
+          };
+          if (item == d2 && d2 == "o") {
+            ds2 = '<div>Omit</div><img src="img/omit.png" style="width:80px; height:80px;">'
+          };
+          if (item == d2 && d2=="p") {
+            ds2 = '<div>Clinic will</div><img src="img/telephone.PNG" style="width:80px; height:80px;"><div>phone today</div>'
+          };
+
+          if (item == d3) {
+            ds3 = '<div>' + item + 'mg</div><img src="img/' + item + '.png" style="width:124px; height:195px;">'
+          };
+          if (item == d3 && d3 == "r") {
+            ds3 = '<div>Retest at clinic</div><img src="img/test.png" style="width:80px; height:80px;"><div>at ' + time + '</div>'
+          };
+          if (item == d3 && d3 == "o") {
+            ds3 = '<div>Omit</div><img src="img/omit.png" style="width:80px; height:80px;">'
+          };
+          if (item == d3 && d3=="p") {
+            ds3 = '<div>Clinic will</div><img src="img/telephone.PNG" style="width:80px; height:80px;"><div>phone today</div>'
+          };
+
+          if (item == d4) {
+            ds4 = '<div>' + item + 'mg</div><img src="img/' + item + '.png" style="width:124px; height:195px;">'
+          };
+          if (item == d4 && d4 == "r") {
+            ds4 = '<div>Retest at clinic</div><img src="img/test.png" style="width:80px; height:80px;"><div>at ' + time + '</div>'
+          };
+          if (item == d4 && d4 == "o") {
+            ds4 = '<div>Omit</div><img src="img/omit.png" style="width:80px; height:80px;">'
+          };
+          if (item == d4 && d4=="p") {
+            ds4 = '<div>Clinic will</div><img src="img/telephone.PNG" style="width:80px; height:80px;"><div>phone today</div>'
+          };
+
+          if (item == d5) {
+            ds5 = '<div>' + item + 'mg</div><img src="img/' + item + '.png" style="width:124px; height:195px;">'
+          };
+          if (item == d5 && d5 == "r") {
+            ds5 = '<div>Retest at clinic</div><img src="img/test.png" style="width:80px; height:80px;"><div>at ' + time + '</div>'
+          };
+          if (item == d5 && d5 == "o") {
+            ds5 = '<div>Omit</div><img src="img/omit.png" style="width:80px; height:80px;">'
+          };
+          if (item == d5 && d5=="p") {
+            ds5 = '<div>Clinic will</div><img src="img/telephone.PNG" style="width:80px; height:80px;"><div>phone today</div>'
+          };
+
+          if (item == d6) {
+            ds6 = '<div>' + item + 'mg</div><img src="img/' + item + '.png" style="width:124px; height:195px;">'
+          };
+          if (item == d6 && d6 == "r") {
+            ds6 = '<div>Retest at clinic</div><img src="img/test.png" style="width:80px; height:80px;"><div>at ' + time + '</div>'
+          };
+          if (item == d6 && d6 == "o") {
+            ds6 = '<div>Omit</div><img src="img/omit.png" style="width:80px; height:80px;">'
+          };
+          if (item == d6 && d6=="p") {
+            ds6 = '<div>Clinic will</div><img src="img/telephone.PNG" style="width:80px; height:80px;"><div>phone today</div>'
+          };
+
+        }
+        document.getElementById('d').value = "";
+        document.getElementById('d1').value = "";
+        document.getElementById('d2').value = "";
+        document.getElementById('d3').value = "";
+        document.getElementById('d4').value = "";
+        document.getElementById('d5').value = "";
+        document.getElementById('d6').value = "";
+        document.getElementById('time').value = "";
+
+        var t1 = new Date(date1);
+
+        var a1 = t1.getDate() + 1;
+        var set1 = new Date(date1).setDate(a1.toString());
+        var p1 = new Date(set1).setHours(12);
+
+        var a2 = t1.getDate() + 2;
+        var set3 = new Date(date1).setDate(a2.toString());
+        var p2 = new Date(set3).setHours(12);
+
+        var a3 = t1.getDate() + 3;
+        var set5 = new Date(date1).setDate(a3.toString());
+        var p3 = new Date(set5).setHours(12);
+
+        var a4 = t1.getDate() + 4;
+        var set7 = new Date(date1).setDate(a4.toString());
+        var p4 = new Date(set7).setHours(12);
+
+        var a5 = t1.getDate() + 5;
+        var set9 = new Date(date1).setDate(a5.toString());
+        var p5 = new Date(set9).setHours(12);
+
+        var a6 = t1.getDate() + 6;
+        var set11 = new Date(date1).setDate(a6.toString());
+        var p6 = new Date(set11).setHours(12);
+
+        var container = document.getElementById('week1');
+        // note that months are zero-based in the JavaScript Date object
+        var items = new vis.DataSet([{
+            start: new Date(date1).setHours(12),
+            content: ds
+          },
+          {
+            start: p1,
+            content: ds1
+          },
+          {
+            start: p2,
+            content: ds2
+          },
+          {
+            start: p3,
+            content: ds3
+          },
+          {
+            start: p4,
+            content: ds4
+          },
+          {
+            start: p5,
+            content: ds5
+          },
+          {
+            start: p6,
+            content: ds6
+          }
+        ]);
+        var options = {
+          width: '1060px',
+          height: '300px',
+          format: {
+            minorLabels: {
+              millisecond: 'SSS',
+              second: 's',
+              minute: 'HH:mm',
+              hour: 'HH:mm',
+              weekday: 'dddd Do',
+              day: 'Do',
+              week: 'w',
+              month: 'MMM',
+              year: 'YYYY'
+            }
+          },
+          editable: true,
+          margin: {
+            item: 0,
+            axis: 10
+          }
+        };
+        var timeline = new vis.Timeline(container, items, options);
+      }
+    </script>
+  </body>
+
+</html>
