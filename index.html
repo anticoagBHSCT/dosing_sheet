@@ -12,10 +12,14 @@
   <script>
     $(function() {
       $(".notes").hide();
+      $("img").hide();
       $("#datepicker1").datepicker({dateFormat: "d M yy", numberOfMonths: 2});
       $("#hide").click(function() {
         $("#form").hide();
         $(".notes").show();
+        if ($("#li").is(':checked')) {
+        $("img").show();
+        }
       });
     });
   </script>
@@ -106,11 +110,17 @@
 
   <body>
     <div>
-      <img id="logo" class="notes" src="img/bhsct.PNG" alt="logo">
+
+      <div>
+        <img src="img/syringe.PNG" alt="syringe" id="syringe" style="width: 300px; height: 100px;">
+        <img src="img/warfarin_soln.PNG" alt="soln" id="soln" style="width:auto; height: 100px;">
+        <img id="logo" class="notes" src="img/bhsct.PNG" alt="logo">
+      </div>
       <div id="form">
         <span style="font-weight: bold;">Warfarin compliance tool for print</span><br>
-        <span>Max 2 weeks if printing landscape, max 4 weeks if printing potrait.</span><br>
-        <span>"o" - omit, "r" - retest, "p" - phone</span><br>
+        <span>Max 2 weeks when printing landscape</span><br>
+        <span>"o" - omit, "r" - retest, "p" - phone</span>
+        <input type="checkbox" id="li"><span>Use warfarin liquid (5ml oral syringe)</span><br>
         <input tabindex="1" type="text" placeholder="From" id="datepicker1" onchange="getToday()" style='width: 80px;'><br>
         <input tabindex="2" type="text" placeholder="mg" id="d" style='width: 25px;'><span id="l"></span><br>
         <input tabindex="3" type="text" placeholder="mg" id="d1" style='width: 25px;'><span id="l1"></span><br>
@@ -154,6 +164,7 @@
 
 
         var date1 = document.getElementById('datepicker1').value;
+        var liq = document.getElementById('li');
         var d = document.getElementById('d').value;
         var d1 = document.getElementById('d1').value;
         var d2 = document.getElementById('d2').value;
@@ -167,8 +178,11 @@
         number.forEach(getNumber);
 
         function getNumber(item, index) {
-          if (item == d) {
+          if (item == d && liq.checked == false) {
             ds = '<div>' + item + 'mg</div><img src="img/' + item + '.png" style="width:124px; height:195px;">'
+          };
+          if(item == d && liq.checked == true) {
+            ds = '<div>' + item + 'mg</div><img src="img/' + item + 'ml.png" style="width:124px; height:195px;">'
           };
           if (item == d && d == "r") {
             ds = '<div>Retest at clinic</div><img src="img/test.png" style="width:80px; height:80px;"><div>at ' + time + '</div>'
@@ -180,8 +194,11 @@
             ds = '<div>Clinic will</div><img src="img/telephone.png" style="width:80px; height:80px;"><div>phone today</div>'
           };
 
-          if (item == d1) {
+          if (item == d1 && liq.checked == false) {
             ds1 = '<div>' + item + 'mg</div><img src="img/' + item + '.png" style="width:124px; height:195px;">'
+          };
+          if(item == d1 && liq.checked == true) {
+            ds1 = '<div>' + item + 'mg</div><img src="img/' + item + 'ml.png" style="width:124px; height:195px;">'
           };
           if (item == d1 && d1 == "r") {
             ds1 = '<div>Retest at clinic</div><img src="img/test.png" style="width:80px; height:80px;"><div>at ' + time + '</div>'
@@ -193,8 +210,11 @@
             ds1 = '<div>Clinic will</div><img src="img/telephone.png" style="width:80px; height:80px;"><div>phone today</div>'
           };
 
-          if (item == d2) {
+          if (item == d2 && liq.checked == false) {
             ds2 = '<div>' + item + 'mg</div><img src="img/' + item + '.png" style="width:124px; height:195px;">'
+          };
+          if(item == d2 && liq.checked == true) {
+            ds2 = '<div>' + item + 'mg</div><img src="img/' + item + 'ml.png" style="width:124px; height:195px;">'
           };
           if (item == d2 && d2 == "r") {
             ds2 = '<div>Retest at clinic</div><img src="img/test.png" style="width:80px; height:80px;"><div>at ' + time + '</div>'
@@ -206,8 +226,11 @@
             ds2 = '<div>Clinic will</div><img src="img/telephone.png" style="width:80px; height:80px;"><div>phone today</div>'
           };
 
-          if (item == d3) {
+          if (item == d3 && liq.checked == false) {
             ds3 = '<div>' + item + 'mg</div><img src="img/' + item + '.png" style="width:124px; height:195px;">'
+          };
+          if(item == d3 && liq.checked == true) {
+            ds3 = '<div>' + item + 'mg</div><img src="img/' + item + 'ml.png" style="width:124px; height:195px;">'
           };
           if (item == d3 && d3 == "r") {
             ds3 = '<div>Retest at clinic</div><img src="img/test.png" style="width:80px; height:80px;"><div>at ' + time + '</div>'
@@ -219,8 +242,11 @@
             ds3 = '<div>Clinic will</div><img src="img/telephone.png" style="width:80px; height:80px;"><div>phone today</div>'
           };
 
-          if (item == d4) {
+          if (item == d4 && liq.checked == false) {
             ds4 = '<div>' + item + 'mg</div><img src="img/' + item + '.png" style="width:124px; height:195px;">'
+          };
+          if(item == d4 && liq.checked == true) {
+              ds4 = '<div>' + item + 'mg</div><img src="img/' + item + 'ml.png" style="width:124px; height:195px;">'
           };
           if (item == d4 && d4 == "r") {
             ds4 = '<div>Retest at clinic</div><img src="img/test.png" style="width:80px; height:80px;"><div>at ' + time + '</div>'
@@ -232,8 +258,11 @@
             ds4 = '<div>Clinic will</div><img src="img/telephone.png" style="width:80px; height:80px;"><div>phone today</div>'
           };
 
-          if (item == d5) {
+          if (item == d5 && liq.checked == false) {
             ds5 = '<div>' + item + 'mg</div><img src="img/' + item + '.png" style="width:124px; height:195px;">'
+          };
+          if(item == d5 && liq.checked == true) {
+            ds5 = '<div>' + item + 'mg</div><img src="img/' + item + 'ml.png" style="width:124px; height:195px;">'
           };
           if (item == d5 && d5 == "r") {
             ds5 = '<div>Retest at clinic</div><img src="img/test.png" style="width:80px; height:80px;"><div>at ' + time + '</div>'
@@ -245,8 +274,11 @@
             ds5 = '<div>Clinic will</div><img src="img/telephone.png" style="width:80px; height:80px;"><div>phone today</div>'
           };
 
-          if (item == d6) {
+          if (item == d6 && liq.checked == false) {
             ds6 = '<div>' + item + 'mg</div><img src="img/' + item + '.png" style="width:124px; height:195px;">'
+          };
+          if(item == d6 && liq.checked == true) {
+              ds6 = '<div>' + item + 'mg</div><img src="img/' + item + 'ml.png" style="width:124px; height:195px;">'
           };
           if (item == d6 && d6 == "r") {
             ds6 = '<div>Retest at clinic</div><img src="img/test.png" style="width:80px; height:80px;"><div>at ' + time + '</div>'
