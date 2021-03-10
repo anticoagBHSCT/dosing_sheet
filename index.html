@@ -6,9 +6,13 @@
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ar.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/en-gb.min.js"></script>
   <script src="js/vis.min.js"></script>
   <script src="js/jquery-1.12.4.js"></script>
   <script src="js/jquery-ui.js"></script>
+
   <script>
     $(function() {
       $(".notes").hide();
@@ -117,11 +121,16 @@
         <img id="logo" class="notes" src="img/bhsct.PNG" alt="logo">
       </div>
       <div id="form">
-        <span style="font-weight: bold;">Warfarin compliance tool for print</span><br>
+        <span style="font-weight: bold;">Warfarin compliance tool for print</span><span> <select  id="locale">
+    <option value="en" selected>english</option>
+    <option value="ar">arabic</option>
+  </select>
+</span><br>
         <span>Max 2 weeks when printing landscape</span><br>
         <span>"o" - omit, "r" - retest, "p" - phone</span>
         <input type="checkbox" id="li"><span>Use warfarin liquid (5ml oral syringe)</span>
-        <input type="checkbox" id="on"><span>Use 1mg tablets only</span><br>
+        <input type="checkbox" id="on"><span>Use 1mg tablets only</span>
+        <br>
         <input tabindex="1" type="text" placeholder="From" id="datepicker1" onchange="getToday()" style='width: 80px;'><br>
         <input tabindex="2" type="text" placeholder="mg" id="d" style='width: 25px;'><span id="l"></span><br>
         <input tabindex="3" type="text" placeholder="mg" id="d1" style='width: 25px;'><span id="l1"></span><br>
@@ -137,7 +146,7 @@
       <div id="week1" style="margin-top: 20px;"></div>
     </div>
     <div class="footer">
-      <span class="notes" style="font-size: 14px;">Warfarin Dosing Sheet | Anticoagulant Clinic, Wing K, Outpatients, Belfast City Hospital, Lisburn Road, Belfast, County Antrim, BT9 7AB  &#x260E; 02890 633005 | 02890 638802</span>
+      <span class="notes" style="font-size: 14px;">Warfarin Dosing Sheet | Anticoagulant Clinic, Wing K, Outpatients, Belfast City Hospital, Lisburn Road, Belfast, County Antrim, BT9 7AB  &#x260E; 02896152221 | 02896152223</span>
     </div>
 
     <script type="text/javascript">
@@ -380,9 +389,12 @@
             content: ds6
           }
         ]);
+
+        var select = document.getElementById('locale');
         var options = {
           width: '1060px',
           height: '300px',
+          locale: locale.value,
           format: {
             minorLabels: {
               millisecond: 'SSS',
@@ -402,7 +414,17 @@
             axis: 10
           }
         };
+
+
+
         var timeline = new vis.Timeline(container, items, options);
+
+        // function locale() {
+        //
+        //     timeline.setOptions({
+        //       locale: select.value
+        //     });
+        //   };
       }
     </script>
   </body>
