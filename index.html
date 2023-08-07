@@ -26,6 +26,7 @@
         if ($("#li").is(':checked')) {
         $("img").show();
         }
+        window.print();
       });
     });
   </script>
@@ -129,11 +130,13 @@
     <option value="sk">slovak</option>
     <option value="ro">romanian</option>
   </select>
-</span><br>
-        <span>Max 2 weeks when printing landscape</span><br>
-        <span>"o" - omit, "r" - retest, "p" - phone</span>
-        <input type="checkbox" id="li"><span>Use warfarin liquid (5ml oral syringe)</span>
-        <input type="checkbox" id="on"><span>Use 1mg tablets only</span>
+        <input type="checkbox" id="li"><span>Warfarin liquid (5ml oral syringe)</span>
+        <input type="checkbox" id="on"><span>1mg tablets only</span>
+</span>
+        <br>
+        <span>Max 2 weeks when printing landscape</span><br><br>
+        <span>Key codes: o = omit, r = retest, p = phone</span>
+
         <br>
         <input tabindex="1" type="text" placeholder="From" id="datepicker1" onchange="getToday()" style='width: 80px;'><br>
         <input tabindex="2" type="text" placeholder="mg" id="d" style='width: 25px;'><span id="l"></span><br>
@@ -143,14 +146,15 @@
         <input tabindex="6" type="text" placeholder="mg" id="d4" style='width: 25px;'><span id="l4"></span><br>
         <input tabindex="7" type="text" placeholder="mg" id="d5" style='width: 25px;'><span id="l5"></span><br>
         <input tabindex="8" type="text" placeholder="mg" id="d6" style='width: 25px;'><span id="l6"></span>
-        <button tabindex="9" style="margin: 5px;" onclick="getDate()" id="submit">...</button>
-        <button style="margin: 5px;" onclick="hide()" id="hide">hide for printing</button>
-        <input placeholder="appt. time" type="text" id="time" style='width: 90px;'><br><br>
+        <button tabindex="9" style="margin: 5px;" onclick="getDate()" id="submit">+</button>
+       
+        <input placeholder="appointment time" type="text" id="time" style='width: 105px;'> 
+        <button style="margin: 5px;" onclick="hide()" id="hide">print</button><br><br>
       </div>
       <div id="week1" style="margin-top: 20px;"></div>
     </div>
     <div class="footer">
-      <span class="notes" style="font-size: 14px;">Warfarin Dosing Sheet | Anticoagulant Clinic, Wing K, Outpatients, Belfast City Hospital, Lisburn Road, Belfast, County Antrim, BT9 7AB  &#x260E; 02896152221 | 02896152223</span>
+      <span class="notes" style="font-size: 14px;">Warfarin Dosing Sheet | Anticoagulant Service, Wing K, Outpatients, Belfast City Hospital, Lisburn Road, Belfast, County Antrim, BT9 7AB  &#x260E; 02896152221</span>
     </div>
 
     <script type="text/javascript">
